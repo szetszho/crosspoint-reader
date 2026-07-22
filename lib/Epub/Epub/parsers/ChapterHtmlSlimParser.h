@@ -37,6 +37,13 @@ class ChapterHtmlSlimParser {
   char partWordBuffer[MAX_WORD_SIZE + 1] = {};
   int partWordBufferIndex = 0;
   bool nextWordContinues = false;  // true when next flushed word attaches to previous (inline element boundary)
+  // Text-flow context for classifying <br>: a <br> inside CJK flowing text is the
+  // book's paragraph separator (plain block boundary), while a standalone <br>
+  // between blocks — or one inside non-CJK text — is a scene-break separator.
+  // Set when words flush, cleared when a block element opens or closes, and
+  // preserved across <br>s so consecutive <br>s classify alike.
+  bool flowHasText = false;  // words flushed since the current text flow started
+  bool flowHasCjk = false;   // any flushed word in the flow contained a CJK codepoint
   std::unique_ptr<ParsedText> currentTextBlock = nullptr;
   std::unique_ptr<Page> currentPage = nullptr;
   int16_t currentPageNextY = 0;
