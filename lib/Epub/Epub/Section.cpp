@@ -17,8 +17,9 @@ namespace {
 // v30: Arabic shaping changed both drawing and measurement (getTextAdvanceX now
 //      measures the shaped visual text); cached word positions from v29 no longer
 //      match what drawText renders.
-// v32: <br> inside CJK flowing text lays out as a plain paragraph separator; the
-//      scene-break gap applies only to standalone or non-CJK-flow <br> separators.
+// v32: ImageBlock serializes the book-internal source href after the cache path
+//      (lazy extraction: images are header-probed at build time and extracted on
+//      first render).
 constexpr uint8_t SECTION_FILE_VERSION = 32;
 // Written into the version field while a build is in progress; patched to
 // SECTION_FILE_VERSION only when the build is finalized. An abandoned /
